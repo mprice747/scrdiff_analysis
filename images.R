@@ -249,6 +249,105 @@ legend("topright", legend = c("Diff. Posterior", "DGP Posterior", "True Stat. Po
        col = c("#009E73", "#E69F00", "#0072B2"), lwd = c(3, 3, 3))
 
 
+################################################
+# Figure 4, HDP Intervals 
+################################################
+
+
+HDP_100_df <- read.csv("Sim_Results/Sim_1/HDP_Ints/HDPs_100.csv")
+
+diff_method_90 <- as.matrix(HDP_100_df[, c("SP1_90_Lower_Diff", "SP1_90_Upper_Diff")])
+dgp_method_90 <- as.matrix(HDP_100_df[, c("SP1_90_Lower_DGP", "SP1_90_Upper_DGP")])
+
+
+# Plot Confidence Intervals 
+plot_conf_intervals <- function(ci_matrix, true_value, main_title,
+                                col_intervals = "#444444", 
+                                col_points = "black",
+                                col_truth = "#0072B2", 
+                                lwd_intervals = 2, 
+                                lwd_truth = 5, 
+                                xlim = NULL )
+{
+  n <- nrow(ci_matrix)
+  
+  # Basic plot setup
+  if(is.null(xlim)){
+    plot(NA, xlim = range(ci_matrix), ylim = c(0.5, n + 0.5),
+         xlab = "Stationary Point", ylab = "", yaxt = "n",
+         main = main_title)
+  } else{
+    plot(NA, xlim = xlim, ylim = c(0.5, n + 0.5),
+         xlab = "Stationary Point", ylab = "", yaxt = "n",
+         main = main_title)
+  }
+  
+  
+  # Draw confidence intervals
+  for (i in 1:n) {
+    segments(ci_matrix[i, 1], i, ci_matrix[i, 2], i, 
+             col = col_intervals, lwd = lwd_intervals)
+  }
+  
+  # Add true parameter line
+  abline(v = true_value, col = col_truth, lwd = lwd_truth)
+  legend("topright", legend = "True Stat. Point", col = "#0072B2", lwd = 3)
+}
+
+
+plot_conf_intervals(diff_method_90[1:50, ], 0.39973, 
+                    main_title = "90% HDP Intervals (Diffeomorphism, n = 100)",
+                    lwd_truth = 2.5, 
+                    xlim = c(0, 1))
+plot_conf_intervals(dgp_method_90[1:50, ], 0.39973, 
+                    main_title = "90% HDP Intervals (DGP, n = 100)",
+                    lwd_truth = 2.5, 
+                    xlim = c(0, 1))
+
+################################################
+# Figure 4, Boxplots of Bias and Posteior Standard Deviation
+################################################
+
+Metrics_100_df <- read.csv("Sim_Results/Sim_1/Metrics/Metrics_100.csv")
+
+diff_map <- Metrics_100_df$SP1_MAP_Diff
+diff_mean <- Metrics_100_df$SP1_Post_Mean_Diff
+diff_sd <- Metrics_100_df$SP1_Post_SD_Diff
+
+dgp_map <- Metrics_100_df$SP1_MAP_DGP
+dgp_mean <- Metrics_100_df$SP1_Post_Mean_DGP
+dgp_sd <- Metrics_100_df$SP1_Post_SD_DGP
+
+plot_two_boxplots <- function(data1, data2, main_title, 
+                              ylab, y_line = NULL,
+                              col1 = "#009E73",  # blue
+                              col2 = "#E69F00",  # orange
+                              line_lwd = 4) {
+  
+  # Combine data
+  combined_data <- list(data1, data2)
+  
+  # Make boxplot
+  boxplot(combined_data, names = c("Diffeomorphism", "DGP"),
+          col = c(col1, col2), border = "black",
+          ylab = ylab, 
+          main = main_title,
+          outline = TRUE)
+  
+  # Add user-specified horizontal line
+  if(!is.null(y_line)) {
+    abline(h = y_line, col = line_col, lwd = line_lwd, lty = 1)
+    legend("topright", legend = "True Stat. Point", col = "#0072B2", lwd = 3)
+  }
+  
+}
+
+plot_two_boxplots(diff_mean - 0.39973, dgp_mean - 0.39973, "MAP Bias Boxplot (n = 100)", 
+                  "Mean Error")
+plot_two_boxplots(diff_sd, dgp_sd, 
+                  "Posterior SD Boxplot (n = 100)", 
+                  "Posteror SD")
+
 
 
 

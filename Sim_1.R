@@ -170,6 +170,6 @@ metrics_df <- as.data.frame(cbind(diff_map, diff_mean, sqrt(post_var_1_diff_mcmc
                                   dgp_map, dgp_mean, sqrt(post_var_1_dgp)))
 
 names(metrics_df) <- c("SP1_MAP_Diff", "SP1_Post_Mean_Diff", "SP1_Post_SD_Diff", 
-                       "SP1_MAP_DGP", "SP1_Post_Mean_DGP", "SP1_Post_DGP")
+                       "SP1_MAP_DGP", "SP1_Post_Mean_DGP", "SP1_Post_SD_DGP")
 
 write.csv(metrics_df, file = "Sim_Results//Sim_1/Metrics/Metrics_100.csv", row.names = FALSE)
