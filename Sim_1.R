@@ -5,7 +5,7 @@ library(scrdiff)
 
 # Simulations for 1 Data Point
 set.seed(8392013)
-# Will contain results
+# Sample Size
 #n <- 50
 n <- 100
 #n <- 200
@@ -58,22 +58,29 @@ cov_scale <- 0.88
 apply_sm_correction <- TRUE
 num_cores <- "ALL"
 
-X_matrix <- matrix(rep(0, num_sims * n), nrow = num_sims)
-Y_matrix <- matrix(rep(0, num_sims * n), nrow = num_sims)
+#X_matrix <- matrix(rep(0, num_sims * n), nrow = num_sims)
+#Y_matrix <- matrix(rep(0, num_sims * n), nrow = num_sims)
 
+# For DGP method
 total_resampled <- 10000
+
+X_matrix <- as.matrix(read.csv("Data/Sim_1/X_matrix_100.csv"))
+Y_matrix <- as.matrix(read.csv("Data/Sim_1/Y_matrix_100.csv"))
+
 
 for (i in 1:num_sims){
   
   print(i)
   
   #0.39973
-  X <- runif(n, 0, 1)
-  Y <- (-2*X^2) + (3*X) + sin(2*X) + cos(3 *X) + 1 + rnorm(n, sd = 0.25)
+  #X <- runif(n, 0, 1)
+  #Y <- (-2*X^2) + (3*X) + sin(2*X) + cos(3 *X) + 1 + rnorm(n, sd = 0.25)
   
-  X_matrix[i, ] <- X
-  Y_matrix[i, ] <- Y
+  #X_matrix[i, ] <- X
+  #Y_matrix[i, ] <- Y
   
+  X <- X_matrix[i, ]
+  Y <- Y_matrix[i, ]
   
   prior_mean <- c(rep(0, num_betas), mean(Y),
                   rep(0, num_stationary + 1), 0)
@@ -147,9 +154,9 @@ mean(sqrt(post_var_1_dgp))
 X_matrix_df <- as.data.frame(X_matrix)
 Y_matrix_df <- as.data.frame(Y_matrix)
 
-# Data Used
-write.csv(X_matrix_df, file = "Data/Sim_1/X_matrix_100.csv", row.names = FALSE)
-write.csv(Y_matrix_df, file = "Data/Sim_1/Y_matrix_100.csv", row.names = FALSE)
+# Data Used (CHANGE)
+write.csv(X_matrix_df, file = "Data/Sim_1/X_matrix_300.csv", row.names = FALSE)
+write.csv(Y_matrix_df, file = "Data/Sim_1/Y_matrix_300.csv", row.names = FALSE)
 
 
 # Record HDP Intervals
@@ -162,14 +169,14 @@ names(HDP_df) <- c("SP1_90_Lower_Diff", "SP1_90_Upper_Diff", "SP1_95_Lower_Diff"
                    "SP1_90_Lower_DGP", "SP1_90_Upper_DGP", "SP1_95_Lower_DGP",
                    "SP1_95_Upper_DGP", "SP1_99_Lower_DGP", "SP1_99_Upper_DGP")
 
-write.csv(HDP_df, file = "Sim_Results/Sim_1/HDP_Ints/HDPs_100.csv", row.names = FALSE)
+write.csv(HDP_df, file = "Sim_Results/Sim_1/HDP_Ints/HDPs_300.csv", row.names = FALSE)
 
 
-# Record MAP and Posterior Mean and Posterior Standard Deviation of Stationary Point
+# Record MAP, Posterior Mean and Posterior Standard Deviation of Stationary Point
 metrics_df <- as.data.frame(cbind(diff_map, diff_mean, sqrt(post_var_1_diff_mcmc),
                                   dgp_map, dgp_mean, sqrt(post_var_1_dgp)))
 
 names(metrics_df) <- c("SP1_MAP_Diff", "SP1_Post_Mean_Diff", "SP1_Post_SD_Diff", 
                        "SP1_MAP_DGP", "SP1_Post_Mean_DGP", "SP1_Post_SD_DGP")
 
-write.csv(metrics_df, file = "Sim_Results//Sim_1/Metrics/Metrics_100.csv", row.names = FALSE)
+write.csv(metrics_df, file = "Sim_Results/Sim_1/Metrics/Metrics_300.csv", row.names = FALSE)

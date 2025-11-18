@@ -24,9 +24,6 @@ comp_func <-  -5* (diff_ex - 0.5)^2 + 3
 
 new_stat_point <- interp1(diff_ex, X_ex, 0.5)
 
-plot(X_ex, template_func, type = 'l')
-lines(X_ex, comp_func)
-
 # Plot Template and Composition
 plot(X_ex, comp_func, type = 'l', col = "#009E73", lwd = 3, 
      xlab = "x", ylab = "y", main = expression("Template and "*g(gamma(x))))
@@ -305,7 +302,7 @@ plot_conf_intervals(dgp_method_90[1:50, ], 0.39973,
                     xlim = c(0, 1))
 
 ################################################
-# Figure 4, Boxplots of Bias and Posteior Standard Deviation
+# Figure 5, Boxplots of Bias and Posteior Standard Deviation
 ################################################
 
 Metrics_100_df <- read.csv("Sim_Results/Sim_1/Metrics/Metrics_100.csv")
@@ -342,13 +339,9 @@ plot_two_boxplots <- function(data1, data2, main_title,
   
 }
 
-plot_two_boxplots(diff_mean - 0.39973, dgp_mean - 0.39973, "MAP Bias Boxplot (n = 100)", 
-                  "Mean Error")
+plot_two_boxplots(diff_mean - 0.39973, dgp_mean - 0.39973, 
+                  "Posterior Mean Bias Boxplot (n = 100)", "Mean Error")
 plot_two_boxplots(diff_sd, dgp_sd, 
                   "Posterior SD Boxplot (n = 100)", 
                   "Posteror SD")
-
-
-
-
 
