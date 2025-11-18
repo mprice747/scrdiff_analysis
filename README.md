@@ -2,11 +2,11 @@
 Simulation Analysis for Stationary Point Constrained Inference via Diffeomorphisms. 
 
 ## Files: 
-*applied_data_analysis.R* - Applies method to ERP data. Data included in the package. 
-*example.R* - Runs method on example dataset. Identical to that of the vignette from the *scrdiff* R package.
-*images.R* - Code used create images in manuscript. 
-*Sim_1.R* - Simulation study for the dataset with one stationary point. Records metrics for both the Diffeomorphism and DGP method. 
-*Sim_2.R* - Simulation study for the dataset with two stationary points. Only runs the Diffeomorphism Method.
+**applied_data_analysis.R** - Applies method to ERP data. Data included in the package. <br>
+**example.R** - Runs method on example dataset. Identical to that of the vignette from the *scrdiff* R package. <br>
+**images.R** - Code used create images in manuscript. <br>
+**Sim_1.R** - Simulation study for the dataset with one stationary point. Records metrics for both the Diffeomorphism and DGP method. <br>
+**Sim_2.R** - Simulation study for the dataset with two stationary points. Only runs the Diffeomorphism Method. <br>
 
 
 
