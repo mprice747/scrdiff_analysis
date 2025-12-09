@@ -1,5 +1,5 @@
 # scrdiff_analysis
-Simulation Analysis for Stationary Point Constrained Inference via Diffeomorphisms. 
+Simulation Analysis for Stationary Point Constrained Inference via Diffeomorphisms. Each file can be run line by line.
 
 ## Files: 
 **applied_data_analysis.R** - Applies method to ERP data. Data included in the package. <br>
